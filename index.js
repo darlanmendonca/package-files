@@ -4,8 +4,9 @@ module.exports = packgeFiles
 
 function packgeFiles() {
   const files = []
+  const cwd = process.cwd()
 
-  getDependencies('./package.json')
+  getDependencies(`${cwd}/package.json`)
 
   return Object
     .keys(files)
@@ -18,7 +19,7 @@ function packgeFiles() {
     Object
       .keys(packageJSON.dependencies)
       .forEach(dependency => {
-        const modulePath = `./node_modules/${dependency}`
+        const modulePath = `${cwd}/node_modules/${dependency}`
         const packageJSON = require(`${modulePath}/package.json`)
         getDependencies(`${modulePath}/package.json`)
 
