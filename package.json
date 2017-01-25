@@ -1,0 +1,26 @@
+{
+  "name": "package-files",
+  "version": "0.0.1",
+  "description": "a module to get files and main files from npm dependencies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darlanmendonca/package-files.git"
+  },
+  "keywords": [
+    "package",
+    "files",
+    "main",
+    "main-file",
+    "npm"
+  ],
+  "author": "Darlan Mendonça <darlanmendonca@gmail.com> (https://darlanmendonca.github.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/darlanmendonca/package-files/issues"
+  },
+  "homepage": "https://github.com/darlanmendonca/package-files#readme"
+}
