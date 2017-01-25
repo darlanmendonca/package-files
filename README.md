@@ -19,11 +19,11 @@ console.log(packageFiles())
 ]
 ```
 
-#### Important
+### Important
 
 this module will find only for `main` and `files` (entire directory, or specific files) on package.json of each dependency of your project.
 
-So, if your module offer anything like that
+So, if your dependency offer anything like that
 
 ```js
 {
@@ -32,17 +32,8 @@ So, if your module offer anything like that
   "files": [
     "dist" // will return all files in directory
     // if you want only a specific file, specify, e.g.
-    "dist/a-other-file.js"
+    // "dist/a-specic-file.js"
   ],
 }
-```
-
-the array returned from package-files, will be
-
-```js
-[
-  '/Users/darlan/projects/mn-prototype-angular/node_modules/mn-layout/dist/mn-layout.css',
-  '/Users/darlan/projects/mn-prototype-angular/node_modules/mn-layout/dist/mn-layout.css.map'
-]
 ```
 
