@@ -37,3 +37,18 @@ So, if your dependency offer anything like that
 }
 ```
 
+
+### options
+
+Optionally, you can add more modules manually, adding the module name in a string or array as arguments, e.g.
+
+
+```js
+packageFiles('other-module')
+// or
+
+packageFiles(['other-module1', 'module2'])
+```
+
+this will get all dependencies of project, (main and files in package), and `other-module` and `module2`.
+Is useful to when you want get a `devDependency`, but only specifically, not all.

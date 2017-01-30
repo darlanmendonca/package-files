@@ -2,9 +2,13 @@
 
 module.exports = packgeFiles
 
-function packgeFiles() {
+function packgeFiles(modules) {
   const files = []
   const cwd = process.cwd()
+
+  modules = typeof modules === 'string'
+    ? [modules]
+    : modules
 
   getDependencies(`${cwd}/package.json`)
 
@@ -16,41 +20,43 @@ function packgeFiles() {
   function getDependencies(pathToPackageJSON) {
     const packageJSON = require(pathToPackageJSON)
 
-    Object
-      .keys(packageJSON.dependencies)
-      .forEach(dependency => {
-        const modulePath = `${cwd}/node_modules/${dependency}`
-        const packageJSON = require(`${modulePath}/package.json`)
-        getDependencies(`${modulePath}/package.json`)
+    const dependencies = pathToPackageJSON === `${cwd}/package.json`
+      ? Object.keys(packageJSON.dependencies).concat(modules)
+      : Object.keys(packageJSON.dependencies)
 
-        if (packageJSON.files) {
-          packageJSON.files
-            .forEach(getFiles)
+    dependencies.forEach(dependency => {
+      const modulePath = `${cwd}/node_modules/${dependency}`
+      const packageJSON = require(`${modulePath}/package.json`)
+      getDependencies(`${modulePath}/package.json`)
 
-          function getFiles(file) {
-            const fs = require('fs')
-            file = file.replace(/\.\//, '')
-            const packageFile = `${modulePath}/${file}`
-            try {
-              const stats = fs.lstatSync(packageFile)
+      if (packageJSON.files) {
+        packageJSON.files
+          .forEach(getFiles)
 
-              if (stats.isDirectory()) {
-                const packageFiles = fs.readdirSync(packageFile)
-                  packageFiles.forEach(file => {
-                    pushFile(packageFile.concat('/', file))
-                  })
-              } else {
-                pushFile(packageFile)
-              }
-            } catch (e) {}
-          }
+        function getFiles(file) {
+          const fs = require('fs')
+          file = file.replace(/\.\//, '')
+          const packageFile = `${modulePath}/${file}`
+          try {
+            const stats = fs.lstatSync(packageFile)
+
+            if (stats.isDirectory()) {
+              const packageFiles = fs.readdirSync(packageFile)
+                packageFiles.forEach(file => {
+                  pushFile(packageFile.concat('/', file))
+                })
+            } else {
+              pushFile(packageFile)
+            }
+          } catch (e) {}
         }
+      }
 
-        if (packageJSON.main) {
-          const mainFile = packageJSON.main.replace(/\.\//, '')
-          pushFile(modulePath.concat('/', mainFile))
-        }
-      })
+      if (packageJSON.main) {
+        const mainFile = packageJSON.main.replace(/\.\//, '')
+        pushFile(modulePath.concat('/', mainFile))
+      }
+    })
   }
 
   function pushFile(pathFile) {
