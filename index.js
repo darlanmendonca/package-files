@@ -20,7 +20,7 @@ function packgeFiles(modules) {
   function getDependencies(pathToPackageJSON) {
     const packageJSON = require(pathToPackageJSON)
 
-    const dependencies = pathToPackageJSON === `${cwd}/package.json`
+    const dependencies = pathToPackageJSON === `${cwd}/package.json` && modules
       ? Object.keys(packageJSON.dependencies).concat(modules)
       : Object.keys(packageJSON.dependencies)
 
