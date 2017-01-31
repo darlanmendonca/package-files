@@ -19,10 +19,11 @@ function packgeFiles(modules) {
 
   function getDependencies(pathToPackageJSON) {
     const packageJSON = require(pathToPackageJSON)
+    const packageDependencies = packageJSON.dependencies || {}
 
     const dependencies = pathToPackageJSON === `${cwd}/package.json` && modules
-      ? Object.keys(packageJSON.dependencies).concat(modules)
-      : Object.keys(packageJSON.dependencies)
+      ? Object.keys(packageDependencies).concat(modules)
+      : Object.keys(packageDependencies)
 
     dependencies.forEach(dependency => {
       const modulePath = `${cwd}/node_modules/${dependency}`
