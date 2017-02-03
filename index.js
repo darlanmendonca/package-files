@@ -43,9 +43,9 @@ function packgeFiles(modules) {
 
             if (stats.isDirectory()) {
               const packageFiles = fs.readdirSync(packageFile)
-                packageFiles.forEach(file => {
-                  pushFile(packageFile.concat('/', file))
-                })
+              packageFiles.forEach(file => {
+                pushFile(packageFile.concat('/', file))
+              })
             } else {
               pushFile(packageFile)
             }
@@ -55,7 +55,12 @@ function packgeFiles(modules) {
 
       if (packageJSON.main) {
         const mainFile = packageJSON.main.replace(/\.\//, '')
-        pushFile(modulePath.concat('/', mainFile))
+
+        const defaultExtension = packageJSON.main.match(/\.\w+$/)
+          ? ''
+          : '.js'
+
+        pushFile(modulePath.concat('/', mainFile, defaultExtension))
       }
     })
   }
